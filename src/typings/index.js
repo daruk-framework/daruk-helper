@@ -5,11 +5,19 @@ const logger = require('../logger')
 
 const typingPath = path.join(process.cwd(), 'typings/daruk')
 
+/**
+ * @param {*} dirname 文件名
+ * @param {*} filePath 文件路径
+ * @desc: 生成对应的生成文件
+ */
 module.exports = function createTypings (dirname, filePath) {
   const files = getFiles(filePath)
-  create(dirname, files)
+  createFiles(dirname, files)
 }
 
+/**
+ * @desc: 获取所给的文件目录下有哪些需要生成的ts文件
+ */
 function getFiles (filePath) {
   let files = fs.readdirSync(filePath)
   let _files = []
@@ -37,8 +45,13 @@ function getFiles (filePath) {
   return _files
 }
 
-function create (dirname, files) {
-  let output = getOutFiles(dirname, files)
+/**
+ * @param {*} dirname 文件名
+ * @param {*} files 需要生成的所有文件声明
+ * @desc: 在typings/daruk下生成对应的生成文件
+ */
+function createFiles (dirname, files) {
+  let output = getOutputFiles(dirname, files)
   let outputPath = path.resolve(typingPath, dirname + '.d.ts')
 
   if (!output) {
@@ -54,7 +67,11 @@ function create (dirname, files) {
   })
 }
 
-function getOutFiles (dirname, files) {
+/**
+ * 
+ * @desc: 获取模板
+ */
+function getOutputFiles (dirname, files) {
   let output
   switch (dirname) {
     case 'services':

@@ -4,7 +4,7 @@ const program = require('commander')
 const chalk = require('chalk')
 const help = require('../src')
 
-const defaultDir = ['service', 'plugins']
+const defaultDir = ['services', 'plugins']
 
 program
   .version(require('../package').version, '-v, --version')
@@ -12,7 +12,7 @@ program
 
 program
   .command('help [dirnames...]')
-  .option('-g, --generate', 'generate dir, default: service plugins')
+  // .option('-g, --generate', 'generate dir, default: service plugins')
   .option('-t, --typings', 'scanning dir generate typings default: service plugins')
   .description('daruk helper tools')
   .action((dirnames, options) => {

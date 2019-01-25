@@ -1,8 +1,8 @@
 
 /**
- * @desc: plugin模板
+ * @desc: glue模板
  */
-module.exports.getGlueTemplate = (dirname, files) => {
+function glueTemplate(dirname, files) {
   return `import '@sina/daruk';
 ${files.map((filename) => `import ${filename} from '../../src/${dirname}/${filename}';`).join('\n')}
 
@@ -16,7 +16,7 @@ declare module '@sina/daruk' {
 /**
  * @desc: service模板
  */
-module.exports.getServiceTemplate = (dirname, files) => {
+function serviceTemplate(dirname, files) {
   return `import '@sina/daruk';
 ${files.map((filename) => `import ${filename} from '../../src/${dirname}/${filename}';`).join('\n')}
 
@@ -25,4 +25,13 @@ declare module '@sina/daruk' {
     ${files.map((filename, i) => `${i ? '    ' + filename : filename }: ${filename};`).join('\n')}
   }
 }`
+}
+
+module.exports = {
+  'glues': {
+    get: glueTemplate
+  },
+  'services': {
+    get: serviceTemplate
+  }
 }

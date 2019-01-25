@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const {getServiceTemplate, getGlueTemplate} = require('./template')
+const template = require('./template')
 const logger = require('../logger')
 
 const typingPath = path.join(process.cwd(), 'typings/daruk')
@@ -8,11 +8,26 @@ const typingPath = path.join(process.cwd(), 'typings/daruk')
 /**
  * @param {*} dirname 文件名
  * @param {*} filePath 文件路径
- * @desc: 生成对应的生成文件
+ * @desc: 生成对应的声明文件
  */
 module.exports = function createTypings (dirname, filePath) {
-  const files = getFiles(filePath)
-  createFiles(dirname, files)
+  const files = getFiles(filePath)  // 获取对应目录下的文件名
+
+  if (!template(dirname) || !template(dirname).get) {
+    logger.fatal(new Error(`not support ${dirname} at now`))
+    return
+  }
+
+  let output = template(dirname).get(dirname, files)
+  let outputPath = path.resolve(typingPath, dirname + '.d.ts')
+
+  fs.writeFile(outputPath, output, 'utf8',function(error){
+    if (error) {
+      logger.fatal(new Error(`created ${dirname + '.d.ts'} failed! Error: ${error.message}`))
+      return false;
+    }
+    logger.success(`created ${dirname + '.d.ts'} success`);
+  })
 }
 
 /**
@@ -38,50 +53,9 @@ function getFiles (filePath) {
     }
 
     if (isDir) {
-      if (fs.existsSync(path.resolve(filedir, 'index.ts'))) //递归，如果是文件夹，就判断文件夹下是否有index.ts
+      if (fs.existsSync(path.resolve(filedir, 'index.ts'))) //如果是文件夹，就判断文件夹下是否有index.ts
       _files.push(filename)
     }
   })
   return _files
-}
-
-/**
- * @param {*} dirname 文件名
- * @param {*} files 需要生成的所有文件声明
- * @desc: 在typings/daruk下生成对应的生成文件
- */
-function createFiles (dirname, files) {
-  let output = getOutputFiles(dirname, files)
-  let outputPath = path.resolve(typingPath, dirname + '.d.ts')
-
-  if (!output) {
-    logger.fatal(new Error(`not support ${dirname} at now`))
-    return
-  }
-
-  fs.writeFile(outputPath, output, 'utf8',function(error){
-    if (error) {
-      return false;
-    }
-    logger.success(`created ${dirname + '.d.ts'} success`);
-  })
-}
-
-/**
- * 
- * @desc: 获取模板
- */
-function getOutputFiles (dirname, files) {
-  let output
-  switch (dirname) {
-    case 'services':
-      output = getServiceTemplate(dirname, files)
-      break
-    case 'gules':
-      output = getGlueTemplate(dirname, files)
-      break
-    default:
-      output = ''
-  }
-  return output
 }

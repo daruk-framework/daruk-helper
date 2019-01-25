@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const {getServiceTemplate, getPluginTemplate} = require('./template')
+const {getServiceTemplate, getGlueTemplate} = require('./template')
 const logger = require('../logger')
 
 const typingPath = path.join(process.cwd(), 'typings/daruk')
@@ -77,8 +77,8 @@ function getOutputFiles (dirname, files) {
     case 'services':
       output = getServiceTemplate(dirname, files)
       break
-    case 'plugins':
-      output = getPluginTemplate(dirname, files)
+    case 'gules':
+      output = getGlueTemplate(dirname, files)
       break
     default:
       output = ''

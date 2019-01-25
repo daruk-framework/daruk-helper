@@ -2,12 +2,12 @@
 /**
  * @desc: plugin模板
  */
-module.exports.getPluginTemplate = (dirname, files) => {
+module.exports.getGlueTemplate = (dirname, files) => {
   return `import '@sina/daruk';
 ${files.map((filename) => `import ${filename} from '../../src/${dirname}/${filename}';`).join('\n')}
 
 declare module '@sina/daruk' {
-  interface Plugin {
+  interface Glue {
     ${files.map((filename, i) => `${i ? '    ' + filename : filename }: ReturnType<typeof ${filename}>;`).join('\n')}
   }
 }`

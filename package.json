@@ -1,5 +1,5 @@
 {
-  "name": "@sina/daruk-helper",
+  "name": "daruk-helper",
   "version": "0.1.6",
   "description": "Daruk helper tools",
   "main": "./src/index.js",

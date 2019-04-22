@@ -13,12 +13,12 @@ const typingPath = path.join(process.cwd(), 'typings/daruk')
 module.exports = function createTypings (dirname, filePath) {
   const files = getFiles(filePath)  // 获取对应目录下的文件名
 
-  if (!template(dirname) || !template(dirname).get) {
+  if (!template[dirname] || !template[dirname].get) {
     logger.fatal(new Error(`not support ${dirname} at now`))
     return
   }
 
-  let output = template(dirname).get(dirname, files)
+  let output = template[dirname].get(dirname, files)
   let outputPath = path.resolve(typingPath, dirname + '.d.ts')
 
   fs.writeFile(outputPath, output, 'utf8',function(error){

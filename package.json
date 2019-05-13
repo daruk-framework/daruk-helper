@@ -2,14 +2,15 @@
   "name": "daruk-helper",
   "version": "0.1.7",
   "description": "Daruk helper tools",
-  "main": "./src/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "helper": "node ./bin/helper help -t services plugins "
+    "helper": "node ./bin/helper help -t services plugins",
+    "build": "node ./node_modules/.bin/tsc"
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.weibo.cn/daruk/daruk-helper.git"
+    "url": "git@github.com:daruk-framework/daruk-helper.git"
   },
   "keywords": [
     "daruk-helper",
@@ -19,9 +20,13 @@
     "daruk-helper": "./bin/helper.js"
   },
   "author": "xilin",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
+    "@types/node": "^12.0.0",
     "chalk": "^2.4.2",
     "commander": "^2.19.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.4.5"
   }
 }

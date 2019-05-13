@@ -2,8 +2,8 @@
 
 const program = require('commander')
 const chalk = require('chalk')
-const help = require('../src')
-const template = Object.keys(require('../src/typings/template')).join('、')
+const help = require('../lib')
+const template = Object.keys(require('../lib/typings/template')).join('、')
 
 program
   .version(require('../package').version, '-v, --version')
